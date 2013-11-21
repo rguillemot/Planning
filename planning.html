@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Load from XML</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="featured" content="yes"><meta name="title" content="Samples" />
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<link rel="icon" href="common/favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="common/favicon.ico" type="image/x-icon" />
+		<link rel="stylesheet" href="common/css/style.css" type="text/css" media="screen" />
+
+	</head>
+	<body onload="createChartControl('GanttDiv')">
+        <div class="header"></div>
+        <div class="content"></div>
+	<link type="text/css" rel="stylesheet" href="dhtmlxGantt/codebase/dhtmlxgantt.css">
+    	<script type="text/javascript" language="JavaScript" src="dhtmlxGantt/codebase/dhtmlxcommon.js"></script>
+    	<script type="text/javascript" language="JavaScript" src="dhtmlxGantt/codebase/dhtmlxgantt.js"></script>
+    	<script type="text/javascript" language="JavaScript">
+    	/*<![CDATA[*/
+    	function createChartControl(htmlDiv1)
+    	{
+        	// Create Gantt control
+        	var ganttChartControl = new GanttChart();
+        	// Setup paths and behavior
+        	ganttChartControl.setImagePath("dhtmlxGantt/codebase/imgs/");
+        	// Build control on the page
+        	ganttChartControl.create(htmlDiv1);
+        	// Load data structure		
+        	ganttChartControl.loadData("/home/richard/projects/Planning/data.xml",true,true);
+    	}
+    	/*]]>*/
+	</script>
+	<div style="width:950px; height:620px; position:relative" id="GanttDiv"></div>
+	</body>
+</html>

@@ -1,0 +1,29 @@
+<projects>
+  <project startdate="2013,11,21" name="chantier BRT PC 0">
+    <task id="3">
+      <name>Ouverture</name>
+      <est>2013,11,21</est>
+      <duration>8</duration>
+      <percentcompleted>0.0</percentcompleted>
+      <predecessortasks/>
+      <childtasks>
+        <task id="1">
+          <name>FARID</name>
+          <est>2013,11,21</est>
+          <duration>8</duration>
+          <percentcompleted>100</percentcompleted>
+          <predecessortasks/>
+          <childtasks/>
+        </task>
+        <task id="2">
+          <name>TIRERA</name>
+          <est>2013,11,21</est>
+          <duration>8</duration>
+          <percentcompleted>100</percentcompleted>
+          <predecessortasks/>
+          <childtasks/>
+        </task>
+      </childtasks>
+    </task>
+  </project>
+</projects>

@@ -3,6 +3,10 @@
 import csv
 from collections import OrderedDict
 from itertools import count
+import lxml.builder as lb
+from lxml import etree
+import datetime
+
 
 def load_table(filename):
 	table = []
@@ -137,6 +141,51 @@ def load_data():
 
 	return worker_list,chantier_type,ouverture_type, task_type, skills_dico, productivity_dico
 
+def TimeToDate(time):
+	today = datetime.datetime.today()
+	today = today + datetime.timedelta(days=time)
+	return today.strftime("%Y,%m,%d")
+
+global taskidcount
+taskidcount=0 
+
+def xml_Chantier(chantier_id,start_time,xml_tasks):
+	xml_project = lb.E.project( \
+  			name="chantier "+str(chantier_id), \
+			startdate=TimeToDate(start_time) \
+  			)
+	for t in xml_tasks:
+		xml_project.append(t)
+	return xml_project
+ 
+def xml_Task(task_type,start_time,duration,percentage,xml_task_elements):
+	xml_childtasks = lb.E.childtasks()
+	for te in xml_task_elements:
+		xml_childtasks.append(te)
+	global taskidcount
+	taskidcount = taskidcount + 1
+	return lb.E.task( \
+			lb.E.name(task_type), \
+			lb.E.est(TimeToDate(start_time)), \
+			lb.E.duration(str(duration*8)), \
+			lb.E.percentcompleted(str(percentage)), \
+			lb.E.predecessortasks(),
+			xml_childtasks,
+			id=str(taskidcount))
+
+
+def xml_TaskElement(worker,when,duration):
+	global taskidcount
+	taskidcount = taskidcount + 1
+	return lb.E.task( \
+			lb.E.name(worker), \
+			lb.E.est(TimeToDate(when)), \
+			lb.E.duration(str(duration*8)), \
+			lb.E.percentcompleted(str(100)), \
+			lb.E.predecessortasks(), \
+			lb.E.childtasks(),
+			id=str(taskidcount))
+
 class TaskElement:
 	def __init__(self,task,worker,time,amount_of_time):
 		self.task = task
@@ -145,49 +194,49 @@ class TaskElement:
 		self.amount_of_time = amount_of_time
 
 	def display(self):
-		print '\t{} did it at {}.'.format(self.who,self.when)
-
-	def display_for_worker (self):
-		print '\t{} did {} at {} int the chantier {} during {}'.format(self.who,self.task.task_type,self.when,self.task.chantier.id,self.amount_of_time)
-
+		return xml_TaskElement(self.who,self.when,self.amount_of_time)
+	
 class Task:
 	def __init__(self,chantier,task_type):
 		self.chantier = chantier
 		self.task_type = task_type
 		self.status = 0
-		self.task_elts = [[]]
+		self.task_elts = []
 
 	def done(self):
 		return self.status == 1
 
+	def start_time(self):
+		return self.task_elts[0].when
+
 	def end_time(self):
-		return self.when[-1]
+		return self.task_elts[-1].when
 
-	def work(self,productivity,worker,time):
-		if isinstance(worker,list):
-			for w in worker:
-				self.work(productivity/(len(worker)),w,time)
-		else:
-			if self.status < 1:
-				if productivity < 1:
-					self.status += productivity
-					amount_of_time = productivity
-				else:
-					self.status = 1
-					amount_of_time = 1	
+	def duration(self):
+		return self.end_time()-self.start_time() + 1
 
-				task_elt = TaskElement(self,worker,time,amount_of_time)
-				self.task_elts[-1] += [task_elt]
+	def work(self,productivity,worker,time,max_amount_of_time):
+		if self.status < 1:
+			if productivity*max_amount_of_time < 1:
+				self.status += productivity*max_amount_of_time
+				amount_of_time = 1 
 			else:
-				task_elt = None 
-			return task_elt
+				self.status = 1
+				amount_of_time = 1/productivity	
+
+			task_elt = TaskElement(self,worker,time,amount_of_time)
+			self.task_elts.append(task_elt)
+			return task_elt 
+		else:
+			print worker
+			print self.task_type
+			return None 
 
 	def display(self):
-		print '{} status : {}'.format(self.task_type, self.status)
-		for d in self.task_elts:
-			for task_elt in d:
-				task_elt.display()
-
+		if self.task_elts:
+			return xml_Task(self.task_type, self.start_time(), self.duration(),self.status*100,[te.display() for te in self.task_elts])
+ 		else:
+			return None
 
 class Chantier:
 	_ids = count(0)
@@ -214,9 +263,8 @@ class Chantier:
 		else:
 			return None
 
-	def work(self,task_type, productivity, worker, time):
-		print(productivity)
-		return self.tasks[task_type].work(productivity,worker,time)
+	def work(self,task_type, productivity, worker, time, max_amount_of_time):
+		return self.tasks[task_type].work(productivity,worker,time, max_amount_of_time)
 
 	def request(self):
 		if not self.done():
@@ -224,40 +272,31 @@ class Chantier:
 		else:
 			return None
 	def display(self):
-		print(self.chantier_type)
-		print(self.ouverture_type)
-		print 'start at {}'.format(self.start_time)
-		for t in self.tasks:
-			self.tasks[t].display()
+		return xml_Chantier(self.chantier_type + " " + self.ouverture_type + " " + str(self.id), self.start_time,filter(None,[t.display() for t in [self.tasks[tid] for tid in self.tasks]]))	
 
 class Worker:
 	def __init__(self,name):
 		self.name = name
 		self.status = [1]
 		self.task_elements = [[]]
-		self.current_time = 0
+
+	def current_time(self):
+		return len(self.status)-1
 
 	def available(self):
-		if self.status[self.current_time] > 0:
+		if self.status[-1] > 0:
 			return True
 		else:
 			return False
 	
-	def work(self,chantier,request,productivity):
-		task_elt = chantier.work(request[2],productivity,self.name,self.current_time)
+	def work(self,chantier,request,productivity,max_amount_of_time):
+		task_elt = chantier.work(request[2],productivity,self.name,self.current_time(),max_amount_of_time)
+		self.status[-1]-=task_elt.amount_of_time
 		self.task_elements[-1]+=[task_elt]
-
 
 	def endofday(self):
 		self.status += [1]
 		self.task_elements += [[]]
-		self.current_time += 1
-
-	def display(self):
-		for day in range(0,len(self.task_elements)):
-			print 'Day : {}'.format(day)
-			for task_elt in self.task_elements[day]:
-				task_elt.display_for_worker()	
 
 class WorkerPool:
 	def __init__(self,worker_list,skills_dico,productivity_dico):
@@ -265,7 +304,7 @@ class WorkerPool:
 		self.skills_dico = skills_dico
 		self.productivity_dico = productivity_dico
 
-	def work(self,chantier):
+	def work(self,chantier,max_amount_of_time):
 		r = c.request()
 		if r == None:
 			return False
@@ -278,18 +317,17 @@ class WorkerPool:
 					all_available &= self.workers[w].available()
 				if all_available:
 					for w in ws:
-						self.workers[w].work(chantier,r,productivity)
-				return True
+						self.workers[w].work(chantier,r,productivity,max_amount_of_time/len(ws))
+					return True
+				else:
+					return False
 			else:
 				if(self.workers[ws].available()):
-					self.workers[ws].work(chantier,r,productivity)
+					self.workers[ws].work(chantier,r,productivity,max_amount_of_time)
 					return True
 	
 		return False
 
-	def display(self):
-		for w in self.workers:
-			self.workers[w].display()
 worker_list,chantier_types, ouverture_types, task_types, skills_dico, productivity_dico = load_data()
 
 chantier_type = 'BRT'
@@ -297,10 +335,14 @@ ouverture_type = 'PC'
 c = Chantier(chantier_type, ouverture_type, task_types, 0)
 pool = WorkerPool(worker_list,skills_dico,productivity_dico)
 
+count = 10 
 while True:
-	ret = pool.work(c)
-	if not ret:
+	ret = pool.work(c,1)
+	count = count + 1
+	if not ret or count == 2:
 		break
-
-c.display()
-pool.display()
+	
+xml_chantier = c.display()
+xml = lb.E.projects(xml_chantier)
+et = etree.ElementTree(xml)
+et.write("data.xml",pretty_print=True)
