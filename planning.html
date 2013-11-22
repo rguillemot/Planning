@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="common/css/style.css" type="text/css" media="screen" />
 
 	</head>
-	<body onload="createChartControl('GanttDiv')">
+	<body onload="createChartControl('GanttDivChantier','datachantier.xml');createChartControl('GanttDivWorker','dataworker.xml')">
         <div class="header"></div>
         <div class="content"></div>
 	<link type="text/css" rel="stylesheet" href="dhtmlxGantt/codebase/dhtmlxgantt.css">
@@ -19,7 +19,7 @@
     	<script type="text/javascript" language="JavaScript" src="dhtmlxGantt/codebase/dhtmlxgantt.js"></script>
     	<script type="text/javascript" language="JavaScript">
     	/*<![CDATA[*/
-    	function createChartControl(htmlDiv1)
+    	function createChartControl(htmlDiv1,filename)
     	{
         	// Create Gantt control
         	var ganttChartControl = new GanttChart();
@@ -28,10 +28,11 @@
         	// Build control on the page
         	ganttChartControl.create(htmlDiv1);
         	// Load data structure		
-        	ganttChartControl.loadData("/home/richard/projects/Planning/data.xml",true,true);
+        	ganttChartControl.loadData("/home/richard/projects/Planning/"+filename,true,true);
     	}
     	/*]]>*/
 	</script>
-	<div style="width:950px; height:620px; position:relative" id="GanttDiv"></div>
+	<div style="width:1700px; height:450px; position:relative" id="GanttDivChantier"></div>
+	<div style="width:1700px; height:450px; position:relative" id="GanttDivWorker"></div>
 	</body>
 </html>

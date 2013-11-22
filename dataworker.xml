@@ -1,0 +1,78 @@
+<projects>
+  <project startdate="2013,11,22" name="SARITE"/>
+  <project startdate="2013,11,22" name="JULIO"/>
+  <project startdate="2013,11,22" name="EDUARDO COSTA"/>
+  <project startdate="2013,11,22" name="JOAO SILVA"/>
+  <project startdate="2013,11,22" name="EDUARDO NUNES"/>
+  <project startdate="2013,11,22" name="FERNANDO BAPTISTA">
+    <task id="12">
+      <name>chantier BRT PC 0 Finition</name>
+      <est>2013,11,22</est>
+      <duration>4.0</duration>
+      <percentcompleted>100</percentcompleted>
+      <predecessortasks/>
+      <childtasks/>
+    </task>
+  </project>
+  <project startdate="2013,11,22" name="DUARTE"/>
+  <project startdate="2013,11,22" name="PAULO SILVA (CPL)"/>
+  <project startdate="2013,11,22" name="ANTONIO ABREU"/>
+  <project startdate="2013,11,22" name="LUIS REIS (CPL)">
+    <task id="13">
+      <name>chantier BRT PC 0 Remblai</name>
+      <est>2013,11,22</est>
+      <duration>2.0</duration>
+      <percentcompleted>100</percentcompleted>
+      <predecessortasks/>
+      <childtasks/>
+    </task>
+  </project>
+  <project startdate="2013,11,22" name="ANTONIO PEDRO">
+    <task id="14">
+      <name>chantier BRT PC 0 Refection</name>
+      <est>2013,11,22</est>
+      <duration>2.0</duration>
+      <percentcompleted>100</percentcompleted>
+      <predecessortasks/>
+      <childtasks/>
+    </task>
+  </project>
+  <project startdate="2013,11,22" name="FARID">
+    <task id="15">
+      <name>chantier BRT PC 0 Ouverture</name>
+      <est>2013,11,22</est>
+      <duration>4.0</duration>
+      <percentcompleted>100</percentcompleted>
+      <predecessortasks/>
+      <childtasks/>
+    </task>
+    <task id="16">
+      <name>chantier BRT PC 0 Ouverture</name>
+      <est>2013,11,22</est>
+      <duration>4.0</duration>
+      <percentcompleted>100</percentcompleted>
+      <predecessortasks/>
+      <childtasks/>
+    </task>
+  </project>
+  <project startdate="2013,11,22" name="TIRERA">
+    <task id="17">
+      <name>chantier BRT PC 0 Ouverture</name>
+      <est>2013,11,22</est>
+      <duration>4.0</duration>
+      <percentcompleted>100</percentcompleted>
+      <predecessortasks/>
+      <childtasks/>
+    </task>
+    <task id="18">
+      <name>chantier BRT PC 0 Ouverture</name>
+      <est>2013,11,22</est>
+      <duration>4.0</duration>
+      <percentcompleted>100</percentcompleted>
+      <predecessortasks/>
+      <childtasks/>
+    </task>
+  </project>
+  <project startdate="2013,11,22" name="JOAO"/>
+  <project startdate="2013,11,22" name="VITOR FERREIRA"/>
+</projects>

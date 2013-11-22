@@ -1,0 +1,96 @@
+<projetcs>
+  <project startdate="2013,11,22" name="chantier BRT PC 0">
+    <task id="5">
+      <name>Ouverture</name>
+      <est>2013,11,22</est>
+      <duration>8</duration>
+      <percentcompleted>100.0</percentcompleted>
+      <predecessortasks/>
+      <childtasks>
+        <task id="1">
+          <name>FARID</name>
+          <est>2013,11,22</est>
+          <duration>4.0</duration>
+          <percentcompleted>100</percentcompleted>
+          <predecessortasks/>
+          <childtasks/>
+        </task>
+        <task id="2">
+          <name>TIRERA</name>
+          <est>2013,11,22</est>
+          <duration>4.0</duration>
+          <percentcompleted>100</percentcompleted>
+          <predecessortasks/>
+          <childtasks/>
+        </task>
+        <task id="3">
+          <name>FARID</name>
+          <est>2013,11,22</est>
+          <duration>4.0</duration>
+          <percentcompleted>100</percentcompleted>
+          <predecessortasks/>
+          <childtasks/>
+        </task>
+        <task id="4">
+          <name>TIRERA</name>
+          <est>2013,11,22</est>
+          <duration>4.0</duration>
+          <percentcompleted>100</percentcompleted>
+          <predecessortasks/>
+          <childtasks/>
+        </task>
+      </childtasks>
+    </task>
+    <task id="7">
+      <name>Refection</name>
+      <est>2013,11,22</est>
+      <duration>8</duration>
+      <percentcompleted>100</percentcompleted>
+      <predecessortasks/>
+      <childtasks>
+        <task id="6">
+          <name>ANTONIO PEDRO</name>
+          <est>2013,11,22</est>
+          <duration>2.0</duration>
+          <percentcompleted>100</percentcompleted>
+          <predecessortasks/>
+          <childtasks/>
+        </task>
+      </childtasks>
+    </task>
+    <task id="9">
+      <name>Finition</name>
+      <est>2013,11,22</est>
+      <duration>8</duration>
+      <percentcompleted>100</percentcompleted>
+      <predecessortasks/>
+      <childtasks>
+        <task id="8">
+          <name>FERNANDO BAPTISTA</name>
+          <est>2013,11,22</est>
+          <duration>4.0</duration>
+          <percentcompleted>100</percentcompleted>
+          <predecessortasks/>
+          <childtasks/>
+        </task>
+      </childtasks>
+    </task>
+    <task id="11">
+      <name>Remblai</name>
+      <est>2013,11,22</est>
+      <duration>8</duration>
+      <percentcompleted>100</percentcompleted>
+      <predecessortasks/>
+      <childtasks>
+        <task id="10">
+          <name>LUIS REIS (CPL)</name>
+          <est>2013,11,22</est>
+          <duration>2.0</duration>
+          <percentcompleted>100</percentcompleted>
+          <predecessortasks/>
+          <childtasks/>
+        </task>
+      </childtasks>
+    </task>
+  </project>
+</projetcs>
